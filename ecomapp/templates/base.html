@@ -37,26 +37,24 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <a class="navbar-brand" href="/">Barbershop</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
-          </li>
+        <ul class="nav navbar-nav">
+          {% if not request.get_full_path == '/' %}
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Categories
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for category in categories %}
+                   <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -64,15 +62,16 @@
 
   <!-- Page Content -->
   <div class="container">
+    {% block content %}
 
     <div class="row">
 
       <div class="col-lg-3">
 
-        <h1 class="my-4">Shop Name</h1>
+        <h1 class="my-4">Barbershop</h1>
         <div class="list-group">
         {% for category in categories %}
-          <a href="#" class="list-group-item">{{ category.name }}</a>
+          <a href="{{ category.get_absolute_url }}" class="list-group-item">{{ category.name }}</a>
         {% endfor %}
         </div>
 
@@ -114,9 +113,10 @@
           <div class="col-sm-4 col-lg-4 col-mb-4">
             <div class="thunbnail">
               <img src="{{ product.image.url }}"  alt="" style="width: 100%; height: 250px;">
-              <div class="caption">
+              <div class="text-center">
+                  <br>
                   <h4 class="pull-right">{{ product.price }}  руб.</h4>
-                  <h5><strong><a href="#">{{ product.title }}</a></strong></h5>
+                  <h5><strong><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></strong></h5>
                   <p>{{ product.description }}</p>
               </div>
             </div>
@@ -124,13 +124,14 @@
         {% endfor %}
         </div>
         <!-- /.row -->
+      
 
       </div>
       <!-- /.col-lg-9 -->
 
     </div>
     <!-- /.row -->
-
+    {% endblock %}
   </div>
   <!-- /.container -->
 
