@@ -12,7 +12,7 @@
             <p>{% lorem %}</p>
             <hr>
             <p style="font-size: 25px;">Цена: <strong>{{ product.price }}</strong></p>
-            <a href=""><button class="btn btn-danger">Добавить в корзину</button></a>
+            <a href="{% url 'add_to_cart' slug=product.slug %}"><button class="btn btn-danger">Добавить в корзину</button></a>
         </div>
      </div>
      <br>

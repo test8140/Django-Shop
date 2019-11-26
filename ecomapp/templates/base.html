@@ -56,6 +56,9 @@
             </div>
           {% endif %}
         </ul>
+        <ul сlass="nav navbar navbar-right">
+          <li><a href="{% url 'cart' %}">Корзина   <spen class="bedge">{{ cart.items.count }}</spen></a></li>
+        </ul>
       </div>
     </div>
   </nav>

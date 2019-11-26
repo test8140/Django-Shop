@@ -78,8 +78,8 @@ class CartItem(models.Model):
 
 class Cart(models.Model):
 
-    items = models.ManyToManyField(CartItem)
+    items = models.ManyToManyField(CartItem, blank=True)
     cart_total = models.DecimalField(max_digits=9, decimal_places=2, default=0.00)
 
     def __str__(self):
-        return str(self.slug)
+        return str(self.id) 
