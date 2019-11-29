@@ -15,7 +15,7 @@
                <td class="text-center">{{ item.product.title }}</td>
                <td class="text-center">{{ item.qty }}</td>
                <td class="text-center">{{ item.item_total }}</td>
-               <td class="text-center"></td>
+               <td class="text-center"><a href="{% url 'remowe_from_cart' slug=item.product.slug %}"><button class="btn btn-default">Удалить из корзины</button></a></td>
            </tr>
         {% endfor %}
     </table>
