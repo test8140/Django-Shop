@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from ecomapp.models import Category, Product, CartItem, Cart
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 
 def base_view(request):
     try:
@@ -47,10 +47,21 @@ def product_view(request, slug):
 
 
 def category_view(request, slug):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id=cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
     category = Category.objects.get(slug=slug)
     products_of_category = Product.objects.filter(category=category)
     categories = Category.objects.all()
     context = {
+        'cart': cart,
         'category': category,
         'products_of_category': products_of_category,
         'categories': categories,
@@ -78,7 +89,7 @@ def cart_view(request):
     return render(request, 'cart.html', context)
 
 
-def add_to_cart_view(request, slug):
+def add_to_cart_view(request):
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -89,13 +100,14 @@ def add_to_cart_view(request, slug):
         cart_id=cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
+    slug = request.GET.get('slug')   
     product = Product.objects.get(slug=slug)
     cart.add_to_cart(product.slug)
-    return HttpResponseRedirect(reverse('cart'))
+    return JsonResponse({'cart_total': cart.items.count()})
 
 
 
-def remowe_from_cart_view(request, slug):
+def remowe_from_cart_view(request):
     try:
         cart_id = request.session['cart_id']
         cart = Cart.objects.get(id=cart_id)
@@ -106,6 +118,7 @@ def remowe_from_cart_view(request, slug):
         cart_id=cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
+    slug = request.GET.get('slug') 
     product = Product.objects.get(slug=slug)
     cart.remove_from_cart(product.slug)
-    return HttpResponseRedirect(reverse('cart'))
+    return JsonResponse({'cart_total': cart.items.count()})

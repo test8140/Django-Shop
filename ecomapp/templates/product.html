@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
         <br>
         <div class="col-sm-4">
@@ -12,8 +12,28 @@
             <p>{% lorem %}</p>
             <hr>
             <p style="font-size: 25px;">Цена: <strong>{{ product.price }}</strong></p>
-            <a href="{% url 'add_to_cart' slug=product.slug %}"><button class="btn btn-danger">Добавить в корзину</button></a>
+            <a href="#" class="add_to_cart" data-slug="{{ product.slug }}"><button class="btn btn-danger">Добавить в корзину</button></a>
         </div>
-     </div>
+
      <br>
+     <script src="{% static 'js/jquery.js' %}"></script>
+     <script>
+            $(document).ready(function(){
+                $('.add_to_cart' ).on('click', function(e){
+                    e.preventDefault()
+                    slug = $(this).attr('data-slug')
+                    data = {
+                        slug: slug
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "{% url 'add_to_cart' %}",
+                        data: data,
+                        success: function(data){
+                            $('#cart_count').html(data.cart_total)
+                        }
+                    })
+                })
+            })
+     </script>
 {% endblock %} 
