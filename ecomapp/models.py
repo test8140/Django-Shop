@@ -100,3 +100,4 @@ class Cart(models.Model):
             if cart_item.product == product:
                 cart.items.remove(cart_item)
                 cart.save()
+ 
