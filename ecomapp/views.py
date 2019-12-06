@@ -1,8 +1,10 @@
-from django.shortcuts import render
-from ecomapp.models import Category, Product, CartItem, Cart
-from django.urls import reverse
-from django.http import HttpResponseRedirect, JsonResponse
 from decimal import Decimal
+from django.shortcuts import render
+from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse
+from ecomapp.forms import OrderForm
+from ecomapp.models import Category, Product, CartItem, Cart
+
 
 def base_view(request):
     try:
@@ -175,3 +177,24 @@ def checkout_view(request):
         'categories': categories,
     }
     return render(request, 'checkout.html', context)
+
+
+def order_create_view(request):
+    categories = Category.objects.all()
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id=cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+    form = OrderForm(request.POST or None)
+    context = {
+        'form': form,
+        'cart': cart,
+        'categories': categories,
+    }
+    return render(request, 'order.html', context)
