@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
      <div class="col-sm-12">
@@ -11,9 +12,35 @@
                  <br>
                  <h4 class="text-center">{{ product.title }}</h4>
                  <p class="text-center" style="font-size: 25px;">Цена: <strong>{{ product.price }}</strong></p>
-                 <p class="text-center"><a href="#"><button class="btn btn-danger">Добавить в корзину</button></a></p>
+                 {% if request.user.is_authenticated %}
+                 <p class="text-center"><a href="#" class="add_to_cart" data-slug="{{ product.slug }}"><button class="btn btn-danger">Добавить в корзину</button></a></p>
+                 {% else %}
+                 <p class="text-center">Заказывать товар могут только авторизированные пользователи.
+                    Пожалуйста, <a href="#">войдите</a> или <a href="#">зарегистрируйтесь</a>
+                 </p>
+                 {% endif %}
                 <br>
                 </div>
          {% endfor %}
      </div>
+     <script src="{% static 'js/jquery.js' %}"></script>
+     <script>
+            $(document).ready(function(){
+                $('.add_to_cart' ).on('click', function(e){
+                    e.preventDefault()
+                    slug = $(this).attr('data-slug')
+                    data = {
+                        slug: slug
+                    }
+                    $.ajax({
+                        type: "GET",
+                        url: "{% url 'add_to_cart' %}",
+                        data: data,
+                        success: function(data){
+                            $('#cart_count').html(data.cart_total)
+                        }
+                    })
+                })
+            })
+     </script>
 {% endblock %} 

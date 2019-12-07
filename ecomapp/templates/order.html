@@ -5,7 +5,7 @@
 {% block content %}
 <br>
 <br>
-   <form action="" method="POST">
+   <form action="" method="POST"> 
        <div class="col-sm-4">
            {{ form.name|as_crispy_field }}
        </div>
@@ -13,13 +13,13 @@
             {{ form.last_name|as_crispy_field }}
        </div>
        <div class="col-sm-4">
-            {{ form.phone|as_crispy_field }}
+            {{ form.phone|as_crispy_field }} 
        </div>
        {{ form.buying_type|as_crispy_field}}
        {{ form.address|as_crispy_field}}
        {{ form.date|as_crispy_field}}
        {{ form.comments|as_crispy_field}}
-       <input type="submit" class="btn btn-success" value="Оформить заказ">
+      <input type="submit" class="btn btn-success" value="Оформить заказ">
    </form>
    <script src="{% static 'js/jquery.js' %}"></script>
    <script>

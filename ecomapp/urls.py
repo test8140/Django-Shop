@@ -1,10 +1,12 @@
 from django.urls import path
+from django.views.generic import TemplateView
 from ecomapp.views import (
     base_view, category_view, 
     product_view, add_to_cart_view, 
     cart_view, remowe_from_cart_view, 
     change_item_qty, checkout_view,
-    order_create_view,
+    order_create_view, make_order_view, 
+    account_view,
     )
 
 urlpatterns = [
@@ -17,4 +19,6 @@ urlpatterns = [
     path('cart/', cart_view, name='cart'),
     path('checkout/', checkout_view, name='checkout'),
     path('order/', order_create_view, name='create_order'),
+    path('thank_you/', TemplateView.as_view(template_name='thank_you.html'), name='thank_you'),
+    path('account/', account_view, name='account'),
 ]
