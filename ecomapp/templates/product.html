@@ -16,7 +16,7 @@
             <a href="#" class="add_to_cart" data-slug="{{ product.slug }}"><button class="btn btn-danger">Добавить в корзину</button></a>
             {% else %}
             <p class="text-center">Заказывать товар могут только авторизированные пользователи.
-                Пожалуйста, <a href="#">войдите</a> или <a href="#">зарегистрируйтесь</a>
+                Пожалуйста, <a href="#">войдите</a> или <a href="{% url 'registration' %}">зарегистрируйтесь</a>
             </p>
             {% endif %}
         </div>

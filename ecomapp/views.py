@@ -2,7 +2,7 @@ from decimal import Decimal
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
-from ecomapp.forms import OrderForm
+from ecomapp.forms import OrderForm, RegistrationForm
 from ecomapp.models import Category, Product, CartItem, Cart, Order
 
 
@@ -243,6 +243,16 @@ def account_view(request):
         'order': order,
     }
     return render(request, 'account.html', context)
+
+
+def registration_view(request):
+    form = RegistrationForm(request.POST or None)
+    if form.is_valid():
+        return HttpResponseRedirect(reverse('base'))
+    context = {
+        'form': form,
+    }
+    return render(request, 'registration.html', context)
     
 
     

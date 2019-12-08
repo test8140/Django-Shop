@@ -5,7 +5,8 @@
 {% block content %}
 <br>
 <br>
-   <form action="" method="POST"> 
+   <form action="{% url 'thank_you' %}" method="POST">
+        {% csrf_token %}
        <div class="col-sm-4">
            {{ form.name|as_crispy_field }}
        </div>
@@ -13,7 +14,7 @@
             {{ form.last_name|as_crispy_field }}
        </div>
        <div class="col-sm-4">
-            {{ form.phone|as_crispy_field }} 
+            {{ form.phone|as_crispy_field }}  
        </div>
        {{ form.buying_type|as_crispy_field}}
        {{ form.address|as_crispy_field}}
