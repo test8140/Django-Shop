@@ -59,6 +59,12 @@
               <li>
                <p class="navbar-text">Здравствуйте гость</p>
               </li>
+              <li>
+                <a href="{% url 'login' %}">Войти</a>
+              </li>
+              <li>
+                <a href="{% url 'registration' %}">Регистрация</a>
+              </li>
           {% else %}
           <li>
             <p class="navbar-text">Здравствуйте {{ request.user }}</p>
@@ -66,6 +72,9 @@
           <li>
             <a href="{% url 'account' %}">Личный кабинет</a>
           </li>
+          <li>
+              <a href="{% url 'logout' %}">Выйти</a>
+            </li>
           {% endif %}
         </ul>
         <ul сlass="nav navbar navbar-right">
